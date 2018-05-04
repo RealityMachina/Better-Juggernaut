@@ -27,7 +27,20 @@ namespace BetterJuggernaut
         }
     }
 
-    [HarmonyPatch(typeof(BattleTech.MechMeleeSequence), "GenerateMeleePath")]
+    [HarmonyPatch(typeof(MechMeleeSequence), "ConsumesMovement")]
+    public static class BattleTech_ConsumesMovement_PostFix
+    {
+        static void Postfix(MechMeleeSequence __instance, bool __result)
+        {
+            if (__instance.OwningMech.StatCollection.GetValue<int>("MeleeHitPushBackPhases") > 0)
+            {
+                __result = false; //ignore movement cost with juggernaut active: combined with bulwark, this will auto brace the mech.
+            }
+            // otherwise we do nothing to alter the result
+        }
+    }
+
+    [HarmonyPatch(typeof(MechMeleeSequence), "GenerateMeleePath")]
     public static class BattleTech_GenerateMeleePath_Postfix
     {
         static void Postfix(MechMeleeSequence __instance)
@@ -42,7 +55,14 @@ namespace BetterJuggernaut
             };
             // __instance.MoveIsCharge = false;
             field1.SetValue(__instance, false); //this should set moveischarge to false?
-            __instance.OwningMech.Pathing.SetWalking();
+            if (__instance.OwningMech.StatCollection.GetValue<int>("MeleeHitPushBackPhases") > 0)
+            {
+                __instance.OwningMech.Pathing.SetSprinting(); //sprint if juggernaut is active
+            }
+            else{
+                __instance.OwningMech.Pathing.SetWalking();
+            }
+            
             __instance.OwningMech.Pathing.SetMeleeTarget(__instance.MeleeTarget as AbstractActor);
             __instance.OwningMech.Pathing.SelectMeleeDest(__instance.DesiredMeleePosition);
             __instance.OwningMech.Pathing.Update(__instance.MeleeTarget.CurrentPosition, false);
