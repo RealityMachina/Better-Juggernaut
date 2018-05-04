@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity Test No One", "Unity Test No One\Unity Test No One.csproj", "{12867649-0018-4DBC-886C-212E662A1434}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterJuggernaut", "BetterJuggernaut.csproj", "{AEAF5F5D-5890-4586-8A37-C15F2763B551}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{12867649-0018-4DBC-886C-212E662A1434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12867649-0018-4DBC-886C-212E662A1434}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12867649-0018-4DBC-886C-212E662A1434}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12867649-0018-4DBC-886C-212E662A1434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAF5F5D-5890-4586-8A37-C15F2763B551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAF5F5D-5890-4586-8A37-C15F2763B551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAF5F5D-5890-4586-8A37-C15F2763B551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAF5F5D-5890-4586-8A37-C15F2763B551}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AC74AB7D-8026-44F6-9452-2F41F1921537}
+		SolutionGuid = {BFDB6DDE-BBAF-46FC-82D6-FE8D20EEBDDE}
 	EndGlobalSection
 EndGlobal
