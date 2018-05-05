@@ -27,7 +27,8 @@ namespace BetterJuggernaut
         }
     }
 
-    [HarmonyPatch(typeof(MechMeleeSequence), "ConsumesMovement")]
+    [HarmonyPatch(typeof(BattleTech.MechMeleeSequence))]
+    [HarmonyPatch("ConsumesMovement", PropertyMethod.Getter)]
     public static class BattleTech_ConsumesMovement_PostFix
     {
         static void Postfix(MechMeleeSequence __instance, bool __result)
