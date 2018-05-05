@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using Harmony;
 using BattleTech;
+using BattleTech.UI;
 using System.IO;
 
 namespace BetterJuggernaut
@@ -13,9 +14,11 @@ namespace BetterJuggernaut
     {
         public static string LogPath;
         public static string ModDirectory;
-
+        public static bool justPunched; //used to keep track of whether we should restore the fire button or not
+        public static Mech jugMech; //we use this to verify we have the right mech to alter
         public static void Init()
         {
+            justPunched = false;
             ModDirectory = Path.Combine(Path.GetDirectoryName(VersionManifestUtilities.MANIFEST_FILEPATH), @"..\..\..\Mods\");
             LogPath = Path.Combine(ModDirectory, "BetterJuggernaut.log");
             File.CreateText(SprintAndPunch.LogPath);//create new text on startup
@@ -28,8 +31,12 @@ namespace BetterJuggernaut
     [HarmonyPatch("ConsumesFiring", PropertyMethod.Getter)]
     public static class BattleTech_ConsumesFiring_Prefix
     {
-        static bool Prefix(MechMeleeSequence __instance, bool __result)
+        static bool Prefix(MechMeleeSequence __instance, ref bool __result)
         {
+            if (__instance == null)
+            {
+                throw new ArgumentNullException(nameof(__instance));
+            }
 
             using (var logwriter = File.AppendText(SprintAndPunch.LogPath))
             {
@@ -70,8 +77,12 @@ namespace BetterJuggernaut
     [HarmonyPatch("ConsumesFiring", PropertyMethod.Getter)]
     public static class BattleTech_ConsumesFiring_Postfix
     {
-        static void Postfix(MechMeleeSequence __instance, bool __result)
+        static void Postfix(MechMeleeSequence __instance, ref bool __result)
         {
+            if (__instance == null)
+            {
+                throw new ArgumentNullException(nameof(__instance));
+            }
 
             using (var logwriter = File.AppendText(SprintAndPunch.LogPath))
             {
@@ -93,6 +104,8 @@ namespace BetterJuggernaut
                                               //__instance.OwningMech.BracedLastRound = true;
                                               /// __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
                             foundJug = true;
+                            SprintAndPunch.justPunched = foundJug;
+                            SprintAndPunch.jugMech = __instance.OwningMech;
                         }
 
                     }
@@ -141,7 +154,7 @@ namespace BetterJuggernaut
                         logwriter?.WriteLine("Should be returning true for ConsumesMovement.");
                         __result = true;
                     }
-                   
+
                 }
                 return true; //otherwise skip
             }
@@ -175,6 +188,8 @@ namespace BetterJuggernaut
                                               //__instance.OwningMech.BracedLastRound = true;
                                               /// __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
                             foundJug = true;
+                            SprintAndPunch.justPunched = foundJug;
+                            SprintAndPunch.jugMech = __instance.OwningMech;
                         }
 
                     }
@@ -187,4 +202,23 @@ namespace BetterJuggernaut
             }
         }
     }
+
+    [HarmonyPatch(typeof(BattleTech.UI.CombatHUDMechwarriorTray))]
+    [HarmonyPatch("ResetMechwarriorButtons")]
+    public static class BattleTech_ResetMechwarriorButtons_Postfix
+    {
+        static void Postfix(CombatHUDMechwarriorTray __instance, AbstractActor actor)
+        {
+            Mech mech = actor as Mech;
+
+            if (SprintAndPunch.justPunched && mech != null && mech == SprintAndPunch.jugMech)
+            {
+                __instance.FireButton.ResetButtonIfNotActive(actor);
+                SprintAndPunch.justPunched = false;
+                SprintAndPunch.jugMech = null;
+            }
+        }
+    }
+
 }
+
