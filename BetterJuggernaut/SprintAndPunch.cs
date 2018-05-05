@@ -46,20 +46,20 @@ namespace BetterJuggernaut
                         
                         if (curPilot.PassiveAbilities[i].Def.Description.Id == "AbilityDefGu8")
                         {
-                            logwriter?.WriteLine("Should be returning true.");
+                            logwriter?.WriteLine("Should be returning false for ConsumesFiring.");
                             __result = false; //ignore firing cost with juggernaut active:
                             __instance.OwningMech.BracedLastRound = true;
                             __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
                             foundJug = true;
+                            return false; //overriding if we have this...
                         }
 
                     }
                     if (!foundJug) //assume melee cost like normal
                     {
-                        logwriter?.WriteLine("Should be returning false.");
+                        logwriter?.WriteLine("Should be returning true for ConsumesFiring.");
                         __result = true;
                     }
-                    return false; //overriding if we have a pilot...
                 }
                 return true; //otherwise skip
             }
@@ -88,7 +88,7 @@ namespace BetterJuggernaut
 
                         if (curPilot.PassiveAbilities[i].Def.Description.Id == "AbilityDefGu8")
                         {
-                            logwriter?.WriteLine("Should be returning true.");
+                            logwriter?.WriteLine("Should be returning false for ConsumesFiring.");
                             __result = false; //ignore firing cost with juggernaut active:
                                               //__instance.OwningMech.BracedLastRound = true;
                                               /// __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
@@ -98,7 +98,7 @@ namespace BetterJuggernaut
                     }
                     if (!foundJug) //assume melee cost like normal
                     {
-                        logwriter?.WriteLine("Should be returning false.");
+                        logwriter?.WriteLine("Should be returning true for ConsumesFiring.");
                         __result = true;
                     }
                 }
@@ -129,20 +129,19 @@ namespace BetterJuggernaut
 
                         if (curPilot.PassiveAbilities[i].Def.Description.Id == "AbilityDefGu8")
                         {
-                            logwriter?.WriteLine("Should be returning true.");
+                            logwriter?.WriteLine("Should be returning false for ConsumesMovement.");
                             __result = false; //ignore firing cost with juggernaut active:
-                            __instance.OwningMech.BracedLastRound = true;
-                            __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
                             foundJug = true;
+                            return false; //overriding if we have this...
                         }
 
                     }
                     if (!foundJug) //assume melee cost like normal
                     {
-                        logwriter?.WriteLine("Should be returning false.");
+                        logwriter?.WriteLine("Should be returning true for ConsumesMovement.");
                         __result = true;
                     }
-                    return false; //overriding if we have a pilot...
+                   
                 }
                 return true; //otherwise skip
             }
@@ -171,7 +170,7 @@ namespace BetterJuggernaut
 
                         if (curPilot.PassiveAbilities[i].Def.Description.Id == "AbilityDefGu8")
                         {
-                            logwriter?.WriteLine("Should be returning true.");
+                            logwriter?.WriteLine("Should be returning false for ConsumesMovement.");
                             __result = false; //ignore firing cost with juggernaut active:
                                               //__instance.OwningMech.BracedLastRound = true;
                                               /// __instance.OwningMech.ApplyInstabilityReduction(StabilityChangeSource.Bracing);
@@ -181,7 +180,7 @@ namespace BetterJuggernaut
                     }
                     if (!foundJug) //assume melee cost like normal
                     {
-                        logwriter?.WriteLine("Should be returning false.");
+                        logwriter?.WriteLine("Should be returning true for COnsumesMovement.");
                         __result = true;
                     }
                 }
