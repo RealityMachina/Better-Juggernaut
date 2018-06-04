@@ -1,0 +1,12 @@
+{
+    "Name": "BetterJuggernaut",
+    "Enabled": true,
+
+    "Version": "0.1",
+    "Description": "Get your pilots super gud at punching things!",
+    "Author": "RealityMachina",
+    "Website": "https://github.com/RealityMachina/Better-Juggernaut",
+    "Contact": "",
+	
+	"DLL": "BetterJuggernaut.dll",
+}

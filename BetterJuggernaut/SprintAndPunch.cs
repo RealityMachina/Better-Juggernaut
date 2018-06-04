@@ -18,10 +18,10 @@ namespace BetterJuggernaut
         public static string ModDirectory;
         public static bool justPunched; //used to keep track of whether we should restore the fire button or not
         public static Mech jugMech; //we use this to verify we have the right mech to alter
-        public static void Init()
+        public static void Init(string directory, string settingsJSON)
         {
             justPunched = false;
-            ModDirectory = Path.Combine(Path.GetDirectoryName(VersionManifestUtilities.MANIFEST_FILEPATH), @"..\..\..\Mods\");
+            ModDirectory = directory;
             LogPath = Path.Combine(ModDirectory, "BetterJuggernaut.log");
             File.CreateText(SprintAndPunch.LogPath);//create new text on startup
             var harmony = HarmonyInstance.Create("Battletech.realitymachina.BetterJuggernaut");
